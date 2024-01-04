@@ -4,4 +4,4 @@
 
 ## 致谢
 
-本仓库思路及相关实现启发于 https://github.com/zhangruiyu/tencent_cos。
+本仓库思路及相关实现启发于 [tencent_cos](https://github.com/zhangruiyu/tencent_cos)

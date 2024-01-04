@@ -47,6 +47,7 @@ class Sign {
 
   String getSignature() {
     final keyTime = generateKeyTime(startTimeMs, expiredTimeMs);
+    final signKey = generateSignKey(keyTime, secretKey);
     final (paramList: urlParamList, parameters: httpParameters) =
         generateParamsListAndParameters(params ?? {});
     final (paramList: headerList, parameters: httpHeaders) =
@@ -57,7 +58,7 @@ class Sign {
         httpParameters: httpParameters,
         httpHeaders: httpHeaders);
     final stringToSign = generateStringToSign(keyTime, httpString);
-    final signature = generateSignature(stringToSign, secretKey);
+    final signature = generateSignature(stringToSign, signKey);
 
     return [
       'q-sign-algorithm=sha1',
@@ -110,8 +111,8 @@ class Sign {
     return "sha1\n$keyTime\n${hex.encode(sha1.convert(httpString.codeUnits).bytes)}\n";
   }
 
-  static generateSignature(String stringToSign, String secretKey) {
-    return Utils.HMACSha1(stringToSign, secretKey);
+  static generateSignature(String stringToSign, String signKey) {
+    return Utils.HMACSha1(stringToSign, signKey);
   }
 
   static filterHeaders(Map<String, String> headers) {

@@ -1,3 +1,4 @@
+import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
 import 'package:tencent_cos_plus/src/utils/sign.dart';
 import 'package:tencent_cos_plus/tencent_cos_plus.dart';
 
@@ -39,13 +40,11 @@ class COSFetchConfig {
     return '${config.getEndpoint(bucket, regionFormatted)}$keyFormatted$urlParamsFormatted';
   }
 
-  getCurrentDateTime() => DateTime.now();
-
   String getSign({
     required String method,
     int? signValidity,
   }) {
-    final startTimeMs = getCurrentDateTime().millisecondsSinceEpoch;
+    final startTimeMs = DateTimeHelper.now.millisecondsSinceEpoch;
     final expiredTimeMs = startTimeMs + (signValidity ?? config.signValidity);
 
     return Sign(

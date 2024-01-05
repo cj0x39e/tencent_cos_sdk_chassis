@@ -1,6 +1,7 @@
 import 'package:tencent_cos_plus/src/cos_config.dart';
 import 'package:tencent_cos_plus/src/fetch/cos_fetch.dart';
 import 'package:tencent_cos_plus/src/fetch/cos_fetch_config.dart';
+import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
 import 'package:tencent_cos_plus/src/utils/memory_cache.dart';
 import 'package:tencent_cos_plus/src/utils/sign.dart';
 
@@ -103,8 +104,6 @@ class COSClient {
         .getSignature();
   }
 
-  getCurrentDateTime() => DateTime.now();
-
   void _initMemoryCache() {
     memoryCache ??= MemoryCache();
   }
@@ -114,7 +113,7 @@ class COSClient {
     required String method,
     int? signValidity,
   }) {
-    final startTimeMs = getCurrentDateTime().millisecondsSinceEpoch;
+    final startTimeMs = DateTimeHelper.now.millisecondsSinceEpoch;
     final expiredTimeMs = startTimeMs + (signValidity ?? config.signValidity);
 
     return Sign(

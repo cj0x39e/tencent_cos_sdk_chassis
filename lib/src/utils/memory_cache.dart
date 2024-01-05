@@ -1,3 +1,5 @@
+import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
+
 class MemoryCache {
   /// The maximum size of the cache, the default value is 200.
   int maxCacheSize;
@@ -29,7 +31,7 @@ class MemoryCache {
     } else {
       final (value: value, expired: expired) = info;
 
-      if (expired > DateTime.now().millisecondsSinceEpoch) {
+      if (expired > DateTimeHelper.now.millisecondsSinceEpoch) {
         return value;
       } else {
         _removeByKey(key);

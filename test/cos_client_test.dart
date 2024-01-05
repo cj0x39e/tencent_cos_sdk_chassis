@@ -1,18 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
 import 'package:tencent_cos_plus/tencent_cos_plus.dart';
-
-class MockCOSClient extends COSClient {
-  MockCOSClient({required COSConfig config}) : super(config: config);
-
-  @override
-  getCurrentDateTime() {
-    return DateTime.utc(2023, 1, 1, 0, 0, 0, 0, 0);
-  }
-}
 
 void main() {
   late COSConfig config;
   late COSClient client;
+
+  setUp(() {
+    DateTimeHelper.now = DateTime.utc(2023, 1, 1, 0, 0, 0, 0, 0);
+  });
 
   setUp(() {
     config = COSConfig(
@@ -21,7 +17,7 @@ void main() {
       appid: 'appid',
       region: 'region',
     );
-    client = MockCOSClient(config: config);
+    client = COSClient(config: config);
   });
 
   test('getAuthorization', () {
@@ -63,6 +59,8 @@ void main() {
     });
 
     test('with cache but the cache is expired', () {
+      DateTimeHelper.now = null;
+
       final client = COSClient(
           config: COSConfig(
               secretId: 'secretId',
@@ -89,6 +87,7 @@ void main() {
     });
 
     test('without cache', () {
+      DateTimeHelper.now = null;
       final client = COSClient(config: config);
       final firstCall = client.getObjectUrl(
           bucket: 'bucket', key: '/xx.jpg', sign: true, cache: false);

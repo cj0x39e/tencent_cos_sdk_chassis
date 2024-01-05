@@ -18,7 +18,8 @@ void main() {
   late String signKey;
 
   setUp(() {
-    startTimeMs = DateTime(2023, 1, 1, 0, 0, 0, 0, 0).millisecondsSinceEpoch;
+    startTimeMs =
+        DateTime.utc(2023, 1, 1, 0, 0, 0, 0, 0).millisecondsSinceEpoch;
     expiredTimeMs = startTimeMs + 2 * 60 * 60 * 1000;
     secretKey = 'secretKey';
     secretId = 'secretId';

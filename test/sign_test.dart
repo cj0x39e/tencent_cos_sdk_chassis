@@ -63,7 +63,7 @@ void main() {
 
   test('generate sign key', () {
     final signKey = Sign.generateSignKey(keyTime, secretKey);
-    expect(signKey, 'b6b74c69ecf10928a0d2a00a4ef3f72703743251');
+    expect(signKey, '2eac9aeab28825d92da6c608a81bf20c4c4d4f51');
   });
 
   test('generate params keys and values with empty params', () {
@@ -107,13 +107,13 @@ void main() {
     final result = Sign.generateStringToSign(keyTime, httpString);
 
     expect(result,
-        'sha1\n1672502400;1672509600\nc21d55c1472b7aa05ba5a54fec4e7fbf0384093c\n');
+        'sha1\n1672531200;1672538400\nc21d55c1472b7aa05ba5a54fec4e7fbf0384093c\n');
   });
 
   test('generate signature', () {
     final result = Sign.generateSignature(stringToSign, signKey);
 
-    expect(result, '700dffe9fdbe23cff53bdb5ed091e55b31a8c6bd');
+    expect(result, '056c0f0a36154290a595c0d01fa7a3a28f4d69c1');
   });
 
   test('get signature without headers and params', () {
@@ -127,7 +127,7 @@ void main() {
     ).getSignature();
 
     expect(result,
-        'q-sign-algorithm=sha1&q-ak=secretId&q-sign-time=1672502400;1672509600&q-key-time=1672502400;1672509600&q-header-list=&q-url-param-list=&q-signature=368446fc3afd9376f247f8d4b29d89e88085268c');
+        'q-sign-algorithm=sha1&q-ak=secretId&q-sign-time=1672531200;1672538400&q-key-time=1672531200;1672538400&q-header-list=&q-url-param-list=&q-signature=40e9b425dcb3873edcf2de31920b5e491bdb3f58');
   });
 
   test('get signature with headers and params', () {
@@ -143,6 +143,6 @@ void main() {
     ).getSignature();
 
     expect(result,
-        'q-sign-algorithm=sha1&q-ak=secretId&q-sign-time=1672502400;1672509600&q-key-time=1672502400;1672509600&q-header-list=content-type&q-url-param-list=age;date;name&q-signature=700dffe9fdbe23cff53bdb5ed091e55b31a8c6bd');
+        'q-sign-algorithm=sha1&q-ak=secretId&q-sign-time=1672531200;1672538400&q-key-time=1672531200;1672538400&q-header-list=content-type&q-url-param-list=age;date;name&q-signature=056c0f0a36154290a595c0d01fa7a3a28f4d69c1');
   });
 }

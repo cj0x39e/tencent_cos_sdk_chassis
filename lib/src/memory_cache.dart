@@ -1,6 +1,6 @@
 class MemoryCache {
   /// The maximum size of the cache, the default value is 200.
-  final int maxCacheSize;
+  int maxCacheSize;
 
   MemoryCache({this.maxCacheSize = 200});
 
@@ -41,7 +41,7 @@ class MemoryCache {
   /// Adding a value to the memory with an expired time.
   /// [key] The key.
   /// [value] The value.
-  /// [expired] The expired time. The unit is ms since 1970.
+  /// [expired] The expired time. The unit is ms.
   void addValue(String key, String value, int expired) {
     if (orderList.length >= maxCacheSize) {
       _removeOldest();

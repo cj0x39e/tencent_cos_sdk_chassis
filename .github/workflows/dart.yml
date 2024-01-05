@@ -3,6 +3,8 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
+# https://github.com/marketplace/actions/flutter-action
+
 name: Dart
 
 on:
@@ -22,5 +24,6 @@ jobs:
         with:
           flutter-version: "3.x"
           channel: "any"
+      - run: flutter --version
       - run: flutter pub get
       - run: flutter test

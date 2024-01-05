@@ -1,6 +1,5 @@
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
-import 'package:tencent_cos_plus/src/utils/utils.dart';
 
 const validHeaders = {
   "cache-control",
@@ -81,7 +80,7 @@ class Sign {
   }
 
   static String generateSignKey(String keyTime, String secretKey) {
-    return Utils.HMACSha1(keyTime, secretKey);
+    return HMACSha1(keyTime, secretKey);
   }
 
   static ({String paramList, String parameters})
@@ -112,7 +111,7 @@ class Sign {
   }
 
   static generateSignature(String stringToSign, String signKey) {
-    return Utils.HMACSha1(stringToSign, signKey);
+    return HMACSha1(stringToSign, signKey);
   }
 
   static filterHeaders(Map<String, String> headers) {
@@ -130,5 +129,10 @@ class Sign {
     }
 
     return res;
+  }
+
+  // ignore: non_constant_identifier_names
+  static String HMACSha1(String msg, String key) {
+    return hex.encode(Hmac(sha1, key.codeUnits).convert(msg.codeUnits).bytes);
   }
 }

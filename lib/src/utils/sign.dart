@@ -1,6 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
-import 'package:tencent_cos_plus/src/utils.dart';
+import 'package:tencent_cos_plus/src/utils/utils.dart';
 
 const validHeaders = {
   "cache-control",

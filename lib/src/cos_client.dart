@@ -1,12 +1,45 @@
 import 'package:tencent_cos_plus/src/cos_config.dart';
-import 'package:tencent_cos_plus/src/memory_cache.dart';
-import 'package:tencent_cos_plus/src/sign.dart';
+import 'package:tencent_cos_plus/src/fetch/cos_fetch.dart';
+import 'package:tencent_cos_plus/src/fetch/cos_fetch_config.dart';
+import 'package:tencent_cos_plus/src/utils/memory_cache.dart';
+import 'package:tencent_cos_plus/src/utils/sign.dart';
 
 class COSClient {
   final COSConfig config;
   MemoryCache? memoryCache;
+  late COSFetch cosFetch;
 
-  COSClient({required this.config});
+  COSClient({required this.config}) {
+    cosFetch = COSFetch();
+  }
+
+  /// 上传对象
+  /// 参考文档：https://cloud.tencent.com/document/product/436/7749
+  String putObject(
+      {required String bucket,
+      required String key,
+      String? region,
+      Map<String, String>? headers}) {
+    // final endPoint = config.getEndpoint(bucket);
+    // return '$endPoint$key';
+    /// TODO
+    return '';
+  }
+
+  /// 删除对象
+  /// 参考文档： https://cloud.tencent.com/document/product/436/7743
+  Future<void> deleteObject(
+      {required String bucket,
+      required String key,
+      String? region,
+      Map<String, String>? headers}) async {
+    return cosFetch.delete(COSFetchConfig(
+        config: config,
+        bucket: bucket,
+        key: key,
+        region: region,
+        headers: headers));
+  }
 
   /// 获取对象访问 url
   /// 参考文档： https://cloud.tencent.com/document/product/436/57420
@@ -21,7 +54,7 @@ class COSClient {
   }) {
     region ??= config.region;
 
-    final endPoint = config.getEndpoint(bucket);
+    final endPoint = config.getEndpoint(bucket, region);
     String url = '$endPoint$key';
 
     if (sign == true) {

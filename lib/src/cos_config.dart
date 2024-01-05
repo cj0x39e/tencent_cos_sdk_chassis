@@ -30,6 +30,7 @@ class COSConfig {
 
   /// 获取接入点
   /// [bucket] 存储桶名称
-  String getEndpoint(String bucket) =>
-      '$scheme://$bucket.cos.$region.myqcloud.com';
+  /// [regionValue] 地域名称，默认使用 [region]
+  String getEndpoint(String bucket, String? regionValue) =>
+      '$scheme://$bucket.cos.${regionValue ?? region}.myqcloud.com';
 }

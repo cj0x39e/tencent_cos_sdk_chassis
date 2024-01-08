@@ -10,3 +10,4 @@ export 'chassis/fetch/cos_fetch_context.dart';
 export 'chassis/fetch/cos_fetch.dart';
 
 export 'apis/get_object_url.dart';
+export 'apis/delete_object.dart';

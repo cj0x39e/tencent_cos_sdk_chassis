@@ -30,6 +30,8 @@ class COSFetch {
     final req =
         await client.openUrl(fetchConfig.method, Uri.parse(fetchContext.url));
 
+    fetchContext.req = req;
+
     final reqHandles = [...globalReqHandlers, ...?fetchConfig.reqHandlers];
 
     for (final handler in reqHandles) {
@@ -68,7 +70,7 @@ class COSFetch {
     final res = fetchContext.res;
     String? content = await res?.transform(utf8.decoder).join("");
 
-    if (res?.statusCode != 200 || res?.statusCode != 204) {
+    if (res?.statusCode != 200 && res?.statusCode != 204) {
       throw COSException(res!.statusCode, content ?? '');
     } else {
       if (res?.statusCode == 200) {

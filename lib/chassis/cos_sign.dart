@@ -12,7 +12,7 @@ const validHeaders = {
   "host"
 };
 
-class Sign {
+class COSSign {
   final int startTimeMs;
 
   final int expiredTimeMs;
@@ -29,7 +29,7 @@ class Sign {
 
   final Map<String, String>? headers;
 
-  Sign({
+  COSSign({
     required this.expiredTimeMs,
     required this.startTimeMs,
     required this.secretKey,

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tencent_cos_sdk_chassis/src/utils/memory_cache.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/utils/memory_cache.dart';
 
 void main() {
   late MemoryCache memoryCache;

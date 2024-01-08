@@ -1,4 +1,4 @@
-import 'package:tencent_cos_sdk_chassis/src/utils/date_time_helper.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/utils/date_time_helper.dart';
 
 class MemoryCache {
   /// The maximum size of the cache, the default value is 200.

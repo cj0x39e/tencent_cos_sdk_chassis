@@ -14,19 +14,17 @@ class COSConfig {
   /// 请求协议，默认使用 https。
   final String scheme;
 
-  /// 签名的有限期，单位为毫秒，默认为 900 秒
+  /// 签名的有限期，单位为毫秒，默认为 900 秒。
   final int signValidity;
 
-  COSConfig(
-      {required this.appid,
-      required this.secretKey,
-      required this.secretId,
-      required this.region,
-      this.scheme = 'https',
-      this.signValidity = 900000})
-      : assert(secretKey.isNotEmpty),
-        assert(secretId.isNotEmpty),
-        assert(appid.isNotEmpty);
+  COSConfig({
+    required this.appid,
+    required this.secretKey,
+    required this.secretId,
+    required this.region,
+    this.scheme = 'https',
+    this.signValidity = 900000,
+  });
 
   /// 获取接入点
   /// [bucket] 存储桶名称

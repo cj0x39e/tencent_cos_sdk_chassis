@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tencent_cos_sdk_chassis/src/utils/sign.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/cos_sign.dart';
 
 void main() {
   late int startTimeMs;
@@ -28,22 +28,22 @@ void main() {
     method = 'GET';
     uriPathname = '/jekfjig';
 
-    keyTime = Sign.generateKeyTime(startTimeMs, expiredTimeMs);
-    signKey = Sign.generateSignKey(keyTime, secretKey);
+    keyTime = COSSign.generateKeyTime(startTimeMs, expiredTimeMs);
+    signKey = COSSign.generateSignKey(keyTime, secretKey);
     (paramList: _, parameters: httpHeaders) =
-        Sign.generateParamsListAndParameters(Sign.filterHeaders(headers));
+        COSSign.generateParamsListAndParameters(COSSign.filterHeaders(headers));
     (paramList: _, parameters: httpParameters) =
-        Sign.generateParamsListAndParameters(params);
-    httpString = Sign.generateHttpString(
+        COSSign.generateParamsListAndParameters(params);
+    httpString = COSSign.generateHttpString(
         method: method,
         uriPathname: uriPathname,
         httpParameters: httpParameters,
         httpHeaders: httpHeaders);
-    stringToSign = Sign.generateStringToSign(keyTime, httpString);
+    stringToSign = COSSign.generateStringToSign(keyTime, httpString);
   });
 
   test('generate key time', () {
-    final keyTime = Sign.generateKeyTime(startTimeMs, expiredTimeMs);
+    final keyTime = COSSign.generateKeyTime(startTimeMs, expiredTimeMs);
 
     expect(keyTime, '${startTimeMs ~/ 1000};${expiredTimeMs ~/ 1000}');
   });
@@ -55,20 +55,20 @@ void main() {
     final end = now - 2 * 60 * 60 * 1000;
 
     try {
-      Sign.generateKeyTime(now, end);
+      COSSign.generateKeyTime(now, end);
     } catch (e) {
       expect(e, isAssertionError);
     }
   });
 
   test('generate sign key', () {
-    final signKey = Sign.generateSignKey(keyTime, secretKey);
+    final signKey = COSSign.generateSignKey(keyTime, secretKey);
     expect(signKey, '2eac9aeab28825d92da6c608a81bf20c4c4d4f51');
   });
 
   test('generate params keys and values with empty params', () {
     final (paramList: list, parameters: params) =
-        Sign.generateParamsListAndParameters({});
+        COSSign.generateParamsListAndParameters({});
 
     expect(list, '');
     expect(params, '');
@@ -76,14 +76,14 @@ void main() {
 
   test('generate params keys and values', () {
     final (paramList: list, parameters: paramsStr) =
-        Sign.generateParamsListAndParameters(params);
+        COSSign.generateParamsListAndParameters(params);
 
     expect(list, 'age;date;name');
     expect(paramsStr, 'age=8&date=2023-02-02&name=cj');
   });
 
   test('generate http string without headers and params', () {
-    final result = Sign.generateHttpString(
+    final result = COSSign.generateHttpString(
         method: method,
         uriPathname: uriPathname,
         httpHeaders: '',
@@ -93,7 +93,7 @@ void main() {
   });
 
   test('generate http string', () {
-    final result = Sign.generateHttpString(
+    final result = COSSign.generateHttpString(
         method: method,
         uriPathname: uriPathname,
         httpHeaders: httpHeaders,
@@ -104,20 +104,20 @@ void main() {
   });
 
   test('generate string to sign', () {
-    final result = Sign.generateStringToSign(keyTime, httpString);
+    final result = COSSign.generateStringToSign(keyTime, httpString);
 
     expect(result,
         'sha1\n1672531200;1672538400\nc21d55c1472b7aa05ba5a54fec4e7fbf0384093c\n');
   });
 
   test('generate signature', () {
-    final result = Sign.generateSignature(stringToSign, signKey);
+    final result = COSSign.generateSignature(stringToSign, signKey);
 
     expect(result, '056c0f0a36154290a595c0d01fa7a3a28f4d69c1');
   });
 
   test('get signature without headers and params', () {
-    final result = Sign(
+    final result = COSSign(
       startTimeMs: startTimeMs,
       expiredTimeMs: expiredTimeMs,
       secretKey: secretKey,
@@ -131,7 +131,7 @@ void main() {
   });
 
   test('get signature with headers and params', () {
-    final result = Sign(
+    final result = COSSign(
       startTimeMs: startTimeMs,
       expiredTimeMs: expiredTimeMs,
       secretKey: secretKey,

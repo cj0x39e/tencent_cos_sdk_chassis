@@ -192,7 +192,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  tencent_cos_plus:
+  tencent_cos_sdk_chassis:
     dependency: "direct main"
     description:
       path: ".."

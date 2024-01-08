@@ -1,9 +1,9 @@
-import 'package:tencent_cos_plus/src/cos_config.dart';
-import 'package:tencent_cos_plus/src/fetch/cos_fetch.dart';
-import 'package:tencent_cos_plus/src/fetch/cos_fetch_config.dart';
-import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
-import 'package:tencent_cos_plus/src/utils/memory_cache.dart';
-import 'package:tencent_cos_plus/src/utils/sign.dart';
+import 'package:tencent_cos_sdk_chassis/src/cos_config.dart';
+import 'package:tencent_cos_sdk_chassis/src/fetch/cos_fetch.dart';
+import 'package:tencent_cos_sdk_chassis/src/fetch/cos_fetch_config.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/date_time_helper.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/memory_cache.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/sign.dart';
 
 class COSClient {
   final COSConfig config;

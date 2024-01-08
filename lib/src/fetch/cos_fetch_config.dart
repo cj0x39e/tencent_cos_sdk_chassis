@@ -1,6 +1,6 @@
-import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
-import 'package:tencent_cos_plus/src/utils/sign.dart';
-import 'package:tencent_cos_plus/tencent_cos_plus.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/date_time_helper.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/sign.dart';
+import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 class COSFetchConfig {
   final COSConfig config;

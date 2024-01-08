@@ -2,7 +2,7 @@ import 'package:example/pages/get_object_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tencent_cos_plus/tencent_cos_plus.dart';
+import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 final getIt = GetIt.instance;
 

@@ -1,6 +1,6 @@
 import 'package:example/main.dart';
 import 'package:flutter/material.dart';
-import 'package:tencent_cos_plus/tencent_cos_plus.dart';
+import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 class GetObjectUrl extends StatefulWidget {
   const GetObjectUrl({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tencent_cos_plus/src/utils/date_time_helper.dart';
-import 'package:tencent_cos_plus/tencent_cos_plus.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/date_time_helper.dart';
+import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 void main() {
   late COSConfig config;

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tencent_cos_plus/src/utils/sign.dart';
+import 'package:tencent_cos_sdk_chassis/src/utils/sign.dart';
 
 void main() {
   late int startTimeMs;

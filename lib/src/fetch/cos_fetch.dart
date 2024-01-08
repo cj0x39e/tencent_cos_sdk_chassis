@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:tencent_cos_plus/src/fetch/cos_fetch_config.dart';
+import 'package:tencent_cos_sdk_chassis/src/fetch/cos_fetch_config.dart';
 import 'package:xml/xml.dart';
 
-import 'package:tencent_cos_plus/src/cos_exception.dart';
-import 'package:tencent_cos_plus/src/fetch/fetch.dart';
+import 'package:tencent_cos_sdk_chassis/src/cos_exception.dart';
+import 'package:tencent_cos_sdk_chassis/src/fetch/fetch.dart';
 
 class COSFetch {
   late Fetch fetch;

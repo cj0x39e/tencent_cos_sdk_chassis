@@ -2,14 +2,14 @@ import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
-class GetObjectUrl extends StatefulWidget {
-  const GetObjectUrl({super.key});
+class GetObjectUrlPage extends StatefulWidget {
+  const GetObjectUrlPage({super.key});
 
   @override
-  State<GetObjectUrl> createState() => _GetObjectUrlState();
+  State<GetObjectUrlPage> createState() => _GetObjectUrlPageState();
 }
 
-class _GetObjectUrlState extends State<GetObjectUrl> {
+class _GetObjectUrlPageState extends State<GetObjectUrlPage> {
   @override
   Widget build(BuildContext context) {
     final url = getIt.get<COSClient>().getObjectUrl(

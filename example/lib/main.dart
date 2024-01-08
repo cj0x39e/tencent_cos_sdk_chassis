@@ -1,4 +1,6 @@
-import 'package:example/pages/get_object_url.dart';
+import 'package:example/pages/delete_object_page.dart';
+import 'package:example/pages/get_object_url_page.dart';
+import 'package:example/proxy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +18,8 @@ void main() async {
           secretId: dotenv.get('secretId'),
           secretKey: dotenv.get('secretKey'),
           appid: dotenv.get('appid'),
-          region: dotenv.get('region'))));
+          region: dotenv.get('region'),
+          scheme: 'http')));
 
   runApp(const MyApp());
 }
@@ -59,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    MyProxy.startProxy();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +82,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(' 获取链接测试'),
               ],
             ),
-            onTap: () => handleToPage(const GetObjectUrl()),
+            onTap: () => handleToPage(const GetObjectUrlPage()),
+          ),
+          ListTile(
+            title: const Row(
+              children: [
+                Icon(Icons.delete_forever_outlined),
+                Text(' 删除对象测试'),
+              ],
+            ),
+            onTap: () => handleToPage(const DeleteObjectPage()),
           ),
         ],
       ),

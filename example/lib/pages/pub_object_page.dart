@@ -22,18 +22,18 @@ class _PutObjectPageState extends State<PutObjectPage> {
     getIt.get<COSClient>().putObject(
         filePath: filePath,
         bucket: 'erp-client-temp-test-1301114422',
-        key: '/ic_launcher_2.png');
+        key: '/Group 5COPY.png');
 
     debugPrint('上传完毕');
   }
 
   init() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    filePath = '${appDocDir.path}/ic_launcher.png';
+    filePath = '${appDocDir.path}/Group 5.png';
     file = await getIt.get<COSClient>().getObject(
           savePath: filePath,
           bucket: 'erp-client-temp-test-1301114422',
-          key: '/ic_launcher.png',
+          key: '/Group 5.png',
         );
 
     setState(() {});

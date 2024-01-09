@@ -1,4 +1,5 @@
 import 'package:example/pages/delete_object_page.dart';
+import 'package:example/pages/get_object_page.dart';
 import 'package:example/pages/get_object_url_page.dart';
 import 'package:example/proxy.dart';
 import 'package:flutter/material.dart';
@@ -92,6 +93,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             onTap: () => handleToPage(const DeleteObjectPage()),
+          ),
+          ListTile(
+            title: const Row(
+              children: [
+                Icon(Icons.download_done_outlined),
+                Text(' 下载对象测试'),
+              ],
+            ),
+            onTap: () => handleToPage(const GetObjectPage()),
           ),
         ],
       ),

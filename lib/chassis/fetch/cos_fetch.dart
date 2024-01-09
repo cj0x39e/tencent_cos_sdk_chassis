@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
-import 'package:xml/xml.dart';
 
 class COSFetch {
   /// 全局请求处理函数，在所有请求处理函数之前调用
@@ -68,13 +67,14 @@ class COSFetch {
   Future<dynamic> resStatusCodeHandler(
       COSFetchContext fetchContext, dynamic data) async {
     final res = fetchContext.res;
-    String? content = await res?.transform(utf8.decoder).join("");
 
     if (res?.statusCode != 200 && res?.statusCode != 204) {
+      String? content = await res?.transform(utf8.decoder).join("");
+
       throw COSException(res!.statusCode, content ?? '');
     } else {
       if (res?.statusCode == 200) {
-        return XmlDocument.parse(content!);
+        return data;
       }
     }
   }

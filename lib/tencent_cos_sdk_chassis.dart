@@ -11,3 +11,4 @@ export 'chassis/fetch/cos_fetch.dart';
 
 export 'apis/get_object_url.dart';
 export 'apis/delete_object.dart';
+export 'apis/get_object.dart';

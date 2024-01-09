@@ -15,7 +15,7 @@ class COSLogger {
   static Level level = Level.info;
 
   static String getMessage(String message, String level) {
-    return '[COS_CHASSIS($level)]: $message';
+    return '[COS_CHASSIS $level ${DateTime.now().toLocal()}]: $message';
   }
 
   static void t(dynamic message) {

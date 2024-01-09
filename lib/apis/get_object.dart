@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 extension COSGutObject on COSClient {
@@ -15,6 +15,7 @@ extension COSGutObject on COSClient {
     Map<String, String>? headers,
     Map<String, String>? params,
   }) async {
+    COSLogger.t('getObject: begin');
     return send<File?>(COSFetchConfig(
         bucket: bucket,
         key: key,
@@ -27,6 +28,8 @@ extension COSGutObject on COSClient {
             final res = fetchContext.res;
             final File file = File(savePath);
             await res?.pipe(file.openWrite());
+
+            COSLogger.t('getObject: end');
 
             return file;
           }

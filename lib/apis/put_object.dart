@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:mime/mime.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 extension COSPutObject on COSClient {
@@ -15,6 +16,8 @@ extension COSPutObject on COSClient {
     Map<String, String>? headers,
     Map<String, String>? params,
   }) async {
+    COSLogger.t('putObject: begin');
+
     return send(COSFetchConfig(
         bucket: bucket,
         key: key,
@@ -36,6 +39,8 @@ extension COSPutObject on COSClient {
             req?.headers.add('Content-Length', fileLength);
 
             await req?.addStream(fs);
+
+            COSLogger.t('putObject: end');
           }
         ]));
   }

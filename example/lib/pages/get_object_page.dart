@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tencent_cos_sdk_chassis/apis/get_object.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 class GetObjectPage extends StatefulWidget {

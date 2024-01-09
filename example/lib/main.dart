@@ -1,6 +1,7 @@
 import 'package:example/pages/delete_object_page.dart';
 import 'package:example/pages/get_object_page.dart';
 import 'package:example/pages/get_object_url_page.dart';
+import 'package:example/pages/pub_object_page.dart';
 import 'package:example/proxy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -102,6 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             onTap: () => handleToPage(const GetObjectPage()),
+          ),
+          ListTile(
+            title: const Row(
+              children: [
+                Icon(Icons.upload_file_outlined),
+                Text(' 上传对象测试'),
+              ],
+            ),
+            onTap: () => handleToPage(const PutObjectPage()),
           ),
         ],
       ),

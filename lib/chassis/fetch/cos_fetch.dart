@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 class COSFetch {
@@ -26,8 +27,10 @@ class COSFetch {
     final fetchContext =
         COSFetchContext(fetchConfig: fetchConfig, config: config);
 
-    final req =
-        await client.openUrl(fetchConfig.method, Uri.parse(fetchContext.url));
+    final url = Uri.parse(fetchContext.url);
+    final req = await client.openUrl(fetchConfig.method, url);
+
+    COSLogger.t(url.toString());
 
     fetchContext.req = req;
 
@@ -68,8 +71,12 @@ class COSFetch {
       COSFetchContext fetchContext, dynamic data) async {
     final res = fetchContext.res;
 
+    COSLogger.t(res?.statusCode);
+
     if (res?.statusCode != 200 && res?.statusCode != 204) {
       String? content = await res?.transform(utf8.decoder).join("");
+
+      COSLogger.t('${res?.statusCode}${content ?? ''}');
 
       throw COSException(res!.statusCode, content ?? '');
     } else {

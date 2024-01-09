@@ -1,5 +1,7 @@
 library tencent_cos_sdk_chassis;
 
+export 'package:logger/logger.dart' show Level;
+
 export 'chassis/cos_client.dart';
 export 'chassis/cos_config.dart';
 export 'chassis/cos_exception.dart';

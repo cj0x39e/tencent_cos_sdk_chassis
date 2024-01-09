@@ -1,5 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 
 const validHeaders = {
   "cache-control",
@@ -59,7 +60,7 @@ class COSSign {
     final stringToSign = generateStringToSign(keyTime, httpString);
     final signature = generateSignature(stringToSign, signKey);
 
-    return [
+    final result = [
       'q-sign-algorithm=sha1',
       'q-ak=$secretId',
       'q-sign-time=$keyTime',
@@ -68,6 +69,10 @@ class COSSign {
       'q-url-param-list=$urlParamList',
       'q-signature=$signature'
     ].join('&');
+
+    COSLogger.t(result);
+
+    return result;
   }
 
   static String generateKeyTime(int startTimeMs, int expiredTimeMs) {

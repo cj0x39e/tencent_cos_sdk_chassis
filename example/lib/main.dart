@@ -15,13 +15,17 @@ void main() async {
 
   await dotenv.load(fileName: 'dev.env');
 
-  getIt.registerSingleton<COSClient>(COSClient(
-      config: COSConfig(
+  getIt.registerSingleton<COSClient>(
+    COSClient(
+        config: COSConfig(
           secretId: dotenv.get('secretId'),
           secretKey: dotenv.get('secretKey'),
           appid: dotenv.get('appid'),
           region: dotenv.get('region'),
-          scheme: 'http')));
+          scheme: 'http',
+        ),
+        loggerLevel: Level.all),
+  );
 
   runApp(const MyApp());
 }

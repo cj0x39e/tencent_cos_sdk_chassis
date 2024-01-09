@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:tencent_cos_sdk_chassis/chassis/cos_config.dart';
 import 'package:tencent_cos_sdk_chassis/chassis/fetch/cos_fetch.dart';
 import 'package:tencent_cos_sdk_chassis/chassis/fetch/cos_fetch_config.dart';
@@ -15,7 +16,13 @@ class COSClient {
 
   /// COS 客户端
   /// [config] 全局配置
-  COSClient({required this.config});
+  /// [loggerLevel] 日志等级
+  COSClient({
+    required this.config,
+    Level? loggerLevel,
+  }) {
+    Logger.level = loggerLevel ?? Level.all;
+  }
 
   /// 发送请求
   /// [fetchConfig] 请求配置

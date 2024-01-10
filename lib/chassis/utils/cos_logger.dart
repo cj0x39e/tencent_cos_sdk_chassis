@@ -21,4 +21,8 @@ class COSLogger {
   static void t(dynamic message) {
     logger.t(getMessage(message.toString(), 'trace'));
   }
+
+  static void i(dynamic message) {
+    logger.i(getMessage(message.toString(), 'info'));
+  }
 }

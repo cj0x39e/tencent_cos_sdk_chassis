@@ -1,6 +1,6 @@
 # tencent_cos_sdk_chassis
 
-[![Dart](https://github.com/cj0x39e/tecent_cos_plus/actions/workflows/dart.yml/badge.svg)](https://github.com/cj0x39e/tecent_cos_plus/actions/workflows/dart.yml)
+[![Dart](https://github.com/cj0x39e/tencent_cos_sdk_chassis/actions/workflows/dart.yml/badge.svg)](https://github.com/cj0x39e/tencent_cos_sdk_chassis/actions/workflows/dart.yml)
 
 易于扩展的腾讯云 COS Dart SDK。
 

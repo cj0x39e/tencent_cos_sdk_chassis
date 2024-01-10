@@ -70,6 +70,9 @@ class COSSign {
       'q-signature=$signature'
     ].join('&');
 
+    COSLogger.t(
+        '\n<signKey>: $signKey \n<httpString>: $httpString \n<stringToSign>: $stringToSign \n<result>: $result');
+
     COSLogger.t(result);
 
     return result;

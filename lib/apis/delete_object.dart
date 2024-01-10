@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
 extension COSDeleteObject on COSClient {
@@ -11,12 +12,20 @@ extension COSDeleteObject on COSClient {
     Map<String, String>? params,
   }) async {
     return send(COSFetchConfig(
-      bucket: bucket,
-      key: key,
-      method: 'DELETE',
-      region: region,
-      headers: headers,
-      params: params,
-    ));
+        bucket: bucket,
+        key: key,
+        method: 'DELETE',
+        region: region,
+        headers: headers,
+        params: params,
+        resHandlers: [
+          (fetchContext, data) async {
+            final res = fetchContext.res;
+
+            if (res?.statusCode != HttpStatus.noContent) {
+              throw COSException(res: res);
+            }
+          }
+        ]));
   }
 }

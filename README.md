@@ -30,7 +30,7 @@ cosClient.getObject()
 
 下图展示了基本的架构：
 
-[https://raw.githubusercontent.com/cj0x39e/tencent_cos_sdk_chassis/master/assets/design.png](design)
+![disign](https://raw.githubusercontent.com/cj0x39e/tencent_cos_sdk_chassis/master/assets/design.png)
 
 具体的实现方式请参考 `lib/apis` 目录下的文件，其都是通过 `extension` 实现的。
 

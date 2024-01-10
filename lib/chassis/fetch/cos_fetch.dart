@@ -22,34 +22,38 @@ class COSFetch {
   Future<T> send<T>(COSFetchConfig fetchConfig, COSConfig config) async {
     HttpClient client = HttpClient();
 
-    final fetchContext =
-        COSFetchContext(fetchConfig: fetchConfig, config: config);
+    try {
+      final fetchContext =
+          COSFetchContext(fetchConfig: fetchConfig, config: config);
 
-    final url = Uri.parse(fetchContext.url);
-    final req = await client.openUrl(fetchConfig.method, url);
+      final url = Uri.parse(fetchContext.url);
+      final req = await client.openUrl(fetchConfig.method, url);
 
-    COSLogger.t(url.toString());
+      COSLogger.t('${fetchConfig.method} ${url.toString()}');
 
-    fetchContext.req = req;
+      fetchContext.req = req;
 
-    final reqHandles = [...globalReqHandlers, ...?fetchConfig.reqHandlers];
+      final reqHandles = [...globalReqHandlers, ...?fetchConfig.reqHandlers];
 
-    for (final handler in reqHandles) {
-      await handler(fetchContext);
+      for (final handler in reqHandles) {
+        await handler(fetchContext);
+      }
+
+      final res = await req.close();
+
+      fetchContext.res = res;
+
+      final resHandles = [...globalResHandlers, ...?fetchConfig.resHandlers];
+
+      dynamic data;
+      for (final handler in resHandles) {
+        data = await handler(fetchContext, data);
+      }
+
+      return data;
+    } catch (error) {
+      rethrow;
     }
-
-    final res = await req.close();
-
-    fetchContext.res = res;
-
-    final resHandles = [...globalResHandlers, ...?fetchConfig.resHandlers];
-
-    dynamic data;
-    for (final handler in resHandles) {
-      data = await handler(fetchContext, data);
-    }
-
-    return data;
   }
 
   /// 添加请求头

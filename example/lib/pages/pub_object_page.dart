@@ -17,14 +17,10 @@ class _PutObjectPageState extends State<PutObjectPage> {
   File? file;
 
   handleUpdate() async {
-    debugPrint('开始上传');
-
     getIt.get<COSClient>().putObject(
         filePath: filePath,
         bucket: 'erp-client-temp-test-1301114422',
-        key: '/Group 5COPY.png');
-
-    debugPrint('上传完毕');
+        key: '/app-1.10.0+74_1.apk');
   }
 
   init() async {
@@ -33,7 +29,7 @@ class _PutObjectPageState extends State<PutObjectPage> {
     file = await getIt.get<COSClient>().getObject(
           savePath: filePath,
           bucket: 'erp-client-temp-test-1301114422',
-          key: '/Group 5.png',
+          key: '/app-1.10.0+74.apk',
         );
 
     setState(() {});

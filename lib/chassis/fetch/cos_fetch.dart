@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
@@ -15,7 +14,6 @@ class COSFetch {
   COSFetch() {
     globalReqHandlers.add(reqAddingHeadersHandler);
     globalReqHandlers.add(reqAddingSignHandler);
-    globalResHandlers.add(resStatusCodeHandler);
   }
 
   /// 发送请求
@@ -64,25 +62,5 @@ class COSFetch {
   /// 添加请求签名
   Future<void> reqAddingSignHandler(COSFetchContext fetchContext) async {
     fetchContext.req?.headers.add('Authorization', fetchContext.getSign());
-  }
-
-  /// 响应码处理
-  Future<dynamic> resStatusCodeHandler(
-      COSFetchContext fetchContext, dynamic data) async {
-    final res = fetchContext.res;
-
-    COSLogger.t(res?.statusCode);
-
-    if (res?.statusCode != 200 && res?.statusCode != 204) {
-      String? content = await res?.transform(utf8.decoder).join("");
-
-      COSLogger.t('${res?.statusCode}${content ?? ''}');
-
-      throw COSException(res!.statusCode, content ?? '');
-    } else {
-      if (res?.statusCode == 200) {
-        return data;
-      }
-    }
   }
 }

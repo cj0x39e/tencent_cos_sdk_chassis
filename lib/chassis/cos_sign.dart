@@ -71,9 +71,7 @@ class COSSign {
     ].join('&');
 
     COSLogger.t(
-        '\n<signKey>: $signKey \n<httpString>: $httpString \n<stringToSign>: $stringToSign \n<result>: $result');
-
-    COSLogger.t(result);
+        '\nSignKey: $signKey \nHttpString: $httpString \nStringToSign: $stringToSign \nResult: $result');
 
     return result;
   }

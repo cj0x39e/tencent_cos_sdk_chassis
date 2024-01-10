@@ -39,6 +39,15 @@ extension COSPutObject on COSClient {
             req?.headers.add('Content-Length', fileLength);
 
             await req?.addStream(fs);
+          }
+        ],
+        resHandlers: [
+          (fetchContext, data) async {
+            final res = fetchContext.res;
+
+            if (res?.statusCode != HttpStatus.ok) {
+              throw COSException(res: res);
+            }
 
             COSLogger.t('putObject: end');
           }

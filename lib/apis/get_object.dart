@@ -16,6 +16,7 @@ extension COSGutObject on COSClient {
     Map<String, String>? params,
   }) async {
     COSLogger.t('getObject: begin');
+
     return send<File?>(COSFetchConfig(
         bucket: bucket,
         key: key,
@@ -26,8 +27,15 @@ extension COSGutObject on COSClient {
         resHandlers: [
           (fetchContext, data) async {
             final res = fetchContext.res;
-            final File file = File(savePath);
-            await res?.pipe(file.openWrite());
+
+            File? file;
+
+            if (res?.statusCode == HttpStatus.ok) {
+              file = File(savePath);
+              await res?.pipe(file.openWrite());
+            } else {
+              throw COSException(res: res);
+            }
 
             COSLogger.t('getObject: end');
 

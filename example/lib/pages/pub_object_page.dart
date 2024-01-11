@@ -20,16 +20,27 @@ class _PutObjectPageState extends State<PutObjectPage> {
     getIt.get<COSClient>().putObject(
         filePath: filePath,
         bucket: 'erp-client-temp-test-1301114422',
-        key: '/app-1.10.0+74_1.apk');
+        key: '/ic_launcher.png');
+  }
+
+  handleUpdateByteArray() async {
+    final byteArr = file!.readAsBytesSync();
+    getIt.get<COSClient>().putObject(
+        byteArr: byteArr,
+        bucket: 'erp-client-temp-test-1301114422',
+        key: '/ic_launcher.png',
+        headers: {
+          'Content-Type': 'image/png',
+        });
   }
 
   init() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    filePath = '${appDocDir.path}/Group 5.png';
+    filePath = '${appDocDir.path}/ic_launcher.png';
     file = await getIt.get<COSClient>().getObject(
           savePath: filePath,
           bucket: 'erp-client-temp-test-1301114422',
-          key: '/app-1.10.0+74.apk',
+          key: '/ic_launcher.png',
         );
 
     setState(() {});
@@ -50,9 +61,21 @@ class _PutObjectPageState extends State<PutObjectPage> {
             ? Center(child: Image.file(file!, width: 200, height: 200))
             : const SizedBox(),
         Center(
-          child: ElevatedButton(
-            onPressed: handleUpdate,
-            child: const Text('上传'),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: handleUpdate,
+                child: const Text('上传(filePath)'),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                onPressed: handleUpdateByteArray,
+                child: const Text('上传(ByteArray)'),
+              ),
+            ],
           ),
         )
       ],

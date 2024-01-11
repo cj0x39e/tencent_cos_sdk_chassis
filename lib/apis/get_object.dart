@@ -40,6 +40,11 @@ extension COSGutObject on COSClient {
                     'getObject: contentType: ${res.headers.contentType}');
 
                 File file = File(savePath);
+
+                if (!file.existsSync()) {
+                  await file.create(recursive: true);
+                }
+
                 final sink = file.openWrite();
 
                 await res.map((chunk) {

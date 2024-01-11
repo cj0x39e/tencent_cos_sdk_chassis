@@ -1,6 +1,7 @@
 name: tencent_cos_sdk_chassis
 description: A Extensible Tencent COS Dart SDK
-version: 0.2.0
+  you can easily extend any API that you want based on the extensible chassis code.
+version: 0.3.0
 repository: https://github.com/cj0x39e/tencent_cos_sdk_chassis
 
 environment:

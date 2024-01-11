@@ -35,8 +35,14 @@ class COSFetch {
 
       final reqHandles = [...globalReqHandlers, ...?fetchConfig.reqHandlers];
 
-      for (final handler in reqHandles) {
-        await handler(fetchContext);
+      try {
+        for (final handler in reqHandles) {
+          await handler(fetchContext);
+        }
+      } catch (error) {
+        req.close();
+
+        rethrow;
       }
 
       final res = await req.close();

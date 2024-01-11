@@ -23,7 +23,7 @@ extension COSDeleteObject on COSClient {
             final res = fetchContext.res;
 
             if (res?.statusCode != HttpStatus.noContent) {
-              throw COSException(res: res);
+              throw await COSException.fromResponse(res);
             }
           }
         ]));

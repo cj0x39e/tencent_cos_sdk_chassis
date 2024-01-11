@@ -28,7 +28,7 @@ class _PutObjectPageState extends State<PutObjectPage> {
     getIt.get<COSClient>().putObject(
         byteArr: byteArr,
         bucket: 'erp-client-temp-test-1301114422',
-        key: '/ic_launcher.png',
+        key: 'new/ic_launcher.png',
         headers: {
           'Content-Type': 'image/png',
         });

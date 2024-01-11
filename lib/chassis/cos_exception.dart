@@ -2,21 +2,23 @@ import 'dart:convert';
 import 'dart:io';
 
 class COSException implements Exception {
-  HttpClientResponse? res;
-
   String? message;
 
-  COSException({this.res, this.message});
+  COSException({this.message});
 
   @override
   String toString() {
-    if (res != null) {
-      final statusCode = res?.statusCode ?? '';
-      final msg = res?.transform(utf8.decoder).join('');
+    return "[COS_CHASSIS_EXCEPTION] $message";
+  }
 
-      return "[COS_CHASSIS_EXCEPTION]\nstatusCode:$statusCode\n\n$msg";
-    } else {
-      return "[COS_CHASSIS_EXCEPTION] $message";
+  static Future<COSException> fromResponse(HttpClientResponse? res) async {
+    try {
+      final body = await res?.transform(utf8.decoder).join();
+      final status = res?.statusCode;
+
+      return COSException(message: 'statusCode: $status\n\n$body');
+    } catch (e) {
+      return COSException(message: 'unknown exception: $e');
     }
   }
 }

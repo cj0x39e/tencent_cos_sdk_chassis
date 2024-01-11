@@ -56,7 +56,7 @@ extension COSGutObject on COSClient {
 
                 return file;
               } else {
-                throw COSException(res: res);
+                throw await COSException.fromResponse(res);
               }
             } else {
               throw Exception('getObject: res is null');

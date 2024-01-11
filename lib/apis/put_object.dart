@@ -79,7 +79,7 @@ extension COSPutObject on COSClient {
 
             if (res != null) {
               if (res.statusCode != HttpStatus.ok) {
-                throw COSException(res: res);
+                throw await COSException.fromResponse(res);
               }
             } else {
               throw COSException(message: 'res is null');

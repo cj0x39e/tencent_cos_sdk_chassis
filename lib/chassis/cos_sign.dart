@@ -54,7 +54,8 @@ class COSSign {
         generateParamsListAndParameters(filterHeaders(headers ?? {}));
     final httpString = generateHttpString(
         method: method,
-        uriPathname: uriPathname,
+        uriPathname:
+            uriPathname.startsWith('/') ? uriPathname : '/$uriPathname',
         httpParameters: httpParameters,
         httpHeaders: httpHeaders);
     final stringToSign = generateStringToSign(keyTime, httpString);

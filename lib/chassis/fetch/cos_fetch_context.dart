@@ -22,10 +22,10 @@ class COSFetchContext {
   String get regionFormatted => fetchConfig.region ?? config.region;
 
   String get keyFormatted {
-    final key = fetchConfig.key.startsWith('/')
-        ? fetchConfig.key.substring(1)
-        : fetchConfig.key;
-    return '/${Uri.encodeComponent(key)}';
+    final key =
+        fetchConfig.key.split('/').map((e) => Uri.encodeComponent(e)).join('/');
+
+    return key.startsWith('/') ? key : '/$key';
   }
 
   String get urlParamsFormatted {

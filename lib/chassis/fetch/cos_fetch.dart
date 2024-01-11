@@ -20,9 +20,9 @@ class COSFetch {
   /// [fetchConfig] 请求相关配置
   /// [config] COS 相关配置
   Future<T> send<T>(COSFetchConfig fetchConfig, COSConfig config) async {
-    HttpClient client = HttpClient();
-
     try {
+      HttpClient client = HttpClient();
+
       final fetchContext =
           COSFetchContext(fetchConfig: fetchConfig, config: config);
 
@@ -58,7 +58,12 @@ class COSFetch {
 
       return data;
     } catch (error) {
-      rethrow;
+      if (error is SocketException && !fetchConfig.isRetryTimesExceed) {
+        fetchConfig.increaseRetryTimes();
+        return send(fetchConfig, config);
+      } else {
+        rethrow;
+      }
     }
   }
 

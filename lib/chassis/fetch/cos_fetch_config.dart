@@ -1,4 +1,5 @@
 import 'package:tencent_cos_sdk_chassis/chassis/fetch/cos_fetch_context.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 
 class COSFetchConfig {
   /// 存储桶
@@ -30,6 +31,9 @@ class COSFetchConfig {
           Future<dynamic> Function(COSFetchContext fetchContext, dynamic data)>?
       resHandlers;
 
+  /// 发生网络失败时的重试次数，默认会重试 3 次
+  final int retryTimes;
+
   COSFetchConfig({
     required this.bucket,
     required this.key,
@@ -40,5 +44,19 @@ class COSFetchConfig {
     this.reqHandlers,
     this.resHandlers,
     this.signValidity,
+    this.retryTimes = 3,
   });
+
+  /// 重试次数
+  int alreadyRetryTimes = 0;
+
+  /// 记录重试次数
+  increaseRetryTimes() {
+    alreadyRetryTimes++;
+
+    COSLogger.t('increaseRetryTimes: $alreadyRetryTimes');
+  }
+
+  /// 是否超过重试次数
+  bool get isRetryTimesExceed => alreadyRetryTimes >= retryTimes;
 }

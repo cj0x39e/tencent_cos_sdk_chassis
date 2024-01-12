@@ -93,6 +93,11 @@ extension COSGutObject on COSClient {
                       List<int> buffer = [];
 
                       controller.stream.listen((chunk) {
+                        if (progress != null) {
+                          downloadedSize += chunk.length;
+                          progress(downloadedSize, totalSize);
+                        }
+
                         buffer.addAll(chunk);
                       });
 
@@ -103,11 +108,6 @@ extension COSGutObject on COSClient {
                       fetchChunk.setData(buffer);
 
                       fetchChunk.status = COSFetchChunkStatus.inputFinished;
-
-                      if (progress != null) {
-                        downloadedSize += buffer.length;
-                        progress(downloadedSize, totalSize);
-                      }
                     } else {
                       throw await COSException.fromResponse(res);
                     }

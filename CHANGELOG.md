@@ -1,3 +1,7 @@
+## 0.4.1
+
+- [improve] 优化 `getObject` 进度回调执行位置
+
 ## 0.4.0
 
 - [feature] `getObject` 支持 chunk 并行下载

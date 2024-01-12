@@ -17,7 +17,7 @@ class _GetObjectPageState extends State<GetObjectPage> {
 
   init() async {
     Directory appDocDir = await getApplicationDocumentsDirectory();
-    String filePath = '${appDocDir.path}/Group 52.png';
+    String filePath = '${appDocDir.path}/Group 54.png';
     file = await getIt.get<COSClient>().getObject(
           savePath: filePath,
           bucket: 'erp-client-temp-test-1301114422',

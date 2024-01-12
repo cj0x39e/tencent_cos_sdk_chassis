@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:tencent_cos_sdk_chassis/chassis/fetch/cos_fetch_chunk.dart';
+import 'package:tencent_cos_sdk_chassis/chassis/fetch/cos_fetch_concurrent.dart';
 import 'package:tencent_cos_sdk_chassis/chassis/utils/cos_logger.dart';
 import 'package:tencent_cos_sdk_chassis/tencent_cos_sdk_chassis.dart';
 
@@ -8,6 +10,8 @@ extension COSGutObject on COSClient {
   /// 参考文档： https://cloud.tencent.com/document/product/436/7749
   /// [savePath] 文件下载路径
   /// [progress] 下载进度
+  /// [concurrent] 同时发起请求数，默认 10
+  /// [chunkSize] 下载分块大小，单位字节，默认 4M
   Future<File?> getObject({
     required String savePath,
     required String bucket,
@@ -16,62 +20,120 @@ extension COSGutObject on COSClient {
     String? region,
     Map<String, String>? headers,
     Map<String, String>? params,
+    int? chunkSize,
+    int? concurrent,
   }) async {
     COSLogger.t('getObject: begin');
 
-    return send<File?>(COSFetchConfig(
-        bucket: bucket,
-        key: key,
-        method: 'GET',
-        region: region,
-        headers: headers,
-        params: params,
-        resHandlers: [
-          (fetchContext, data) async {
-            final res = fetchContext.res;
+    File file = File(savePath);
 
-            if (res != null) {
-              if (res.statusCode == HttpStatus.ok) {
-                final totalBytes = res.contentLength;
-                int downloadedBytes = 0;
+    if (!file.existsSync()) {
+      await file.create(recursive: true);
+    }
 
-                COSLogger.t('getObject: totalBytes: $totalBytes');
-                COSLogger.t(
-                    'getObject: contentType: ${res.headers.contentType}');
+    final randomAccessFile = await file.open(mode: FileMode.writeOnly);
 
-                File file = File(savePath);
+    Future<int?> getContentLength() async {
+      return send(COSFetchConfig(
+          bucket: bucket,
+          key: key,
+          method: 'HEAD',
+          region: region,
+          headers: headers,
+          params: params,
+          resHandlers: [
+            (fetchContext, data) async {
+              final res = fetchContext.res;
 
-                if (!file.existsSync()) {
-                  await file.create(recursive: true);
+              if (res != null) {
+                if (res.statusCode == HttpStatus.ok) {
+                  return res.headers.contentLength;
+                } else {
+                  throw await COSException.fromResponse(res);
                 }
+              } else {
+                throw Exception('getObject: getContentLength: res is null');
+              }
+            },
+            (context, data) async {
+              COSLogger.t('getObject: getContentLength: end');
 
-                final sink = file.openWrite();
+              return Future.value(data);
+            }
+          ]));
+    }
 
-                await res.map((chunk) {
-                  downloadedBytes += chunk.length;
+    final totalSize = await getContentLength();
+    int downloadedSize = 0;
 
-                  COSLogger.t('$downloadedBytes / $totalBytes');
+    if (totalSize != null) {
+      final fetchConcurrent = COSFetchConcurrent(
+        chunkSize: chunkSize ?? 1024 * 1024 * 4,
+        concurrent: concurrent ?? 10,
+        totalSize: totalSize,
+        input: (fetchChunk) async {
+          await send(COSFetchConfig(
+              bucket: bucket,
+              key: key,
+              method: 'GET',
+              region: region,
+              headers: {
+                'Range': 'bytes=${fetchChunk.start}-${fetchChunk.end}',
+                ...headers ?? {},
+              },
+              params: params,
+              resHandlers: [
+                (fetchContext, data) async {
+                  final res = fetchContext.res;
 
-                  if (progress != null) {
-                    progress(downloadedBytes, totalBytes);
+                  if (res != null) {
+                    if (res.statusCode == HttpStatus.partialContent) {
+                      final controller = StreamController<List<int>>();
+
+                      List<int> buffer = [];
+
+                      controller.stream.listen((chunk) {
+                        buffer.addAll(chunk);
+                      });
+
+                      await res.pipe(controller);
+
+                      await controller.close();
+
+                      fetchChunk.setData(buffer);
+
+                      fetchChunk.status = COSFetchChunkStatus.inputFinished;
+
+                      if (progress != null) {
+                        downloadedSize += buffer.length;
+                        progress(downloadedSize, totalSize);
+                      }
+                    } else {
+                      throw await COSException.fromResponse(res);
+                    }
+                  } else {
+                    throw Exception('getObject: res is null');
                   }
 
-                  return chunk;
-                }).pipe(sink);
+                  COSLogger.t('getObject: end');
+                }
+              ]));
+        },
+        output: (fetchChunk) async {
+          await randomAccessFile.setPosition(fetchChunk.start);
+          await randomAccessFile.writeFrom(fetchChunk.data!);
 
-                return file;
-              } else {
-                throw await COSException.fromResponse(res);
-              }
-            } else {
-              throw Exception('getObject: res is null');
-            }
-          },
-          (context, data) async {
-            COSLogger.t('getObject: end');
+          fetchChunk.status = COSFetchChunkStatus.outputFinished;
+        },
+      );
 
-            return Future.value(data);
-          }
-        ]));
+      await fetchConcurrent.go();
+
+      await randomAccessFile.close();
+
+      return file;
+    } else {
+      throw Exception('getObject: getContentLength: totalSize is null');
+    }
   }
 }

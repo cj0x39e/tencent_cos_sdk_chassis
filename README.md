@@ -22,6 +22,15 @@ final cosClient = COSClient(
 cosClient.getObject()
 
 ```
+## AIP 文档
+
+已实现的 API:
+1. getObject 下载对象
+2. deleteObject 删除对象
+3. getObjectUrl 获取访问对象 URL
+4. putObject 上传对象
+
+具体参数请参考： https://github.com/cj0x39e/tencent_cos_sdk_chassis/tree/master/lib/apis
 
 ## 扩展 API
 
